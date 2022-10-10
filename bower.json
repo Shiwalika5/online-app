@@ -1,0 +1,6 @@
+{
+  "name": "emberjs-tutorial",
+  "dependencies": {
+    "comma-separated-values": "^3.6.4"
+  }
+}

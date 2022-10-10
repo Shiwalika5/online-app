@@ -1,0 +1,23 @@
+{{!-- 
+<form>
+   <span class="m-4">Search Products - </span>
+   <input type="text" placeholder="Search" id="filterInput" class="bg-grap-200 w-2/4 py-1 px-3 m-3 placeholder-gray-800 rounded-md">
+</form>
+ --}}
+
+<GeneralContainer> 
+{{log this.model 'new'}}
+   <Product::filter @product={{this.model}}/>
+</GeneralContainer> 
+
+
+
+{{!-- 
+{{#each this.model as |product|}}
+     <Product @product={{product}}/>  
+     <Product::filter @model={{this.model}}/>
+  {{/each}} --}}
+ {{!-- {{product.id}} -->
+      {{product.image}} --}}
+
+     {{!-- <Product::Image @src={{product.image}}/>   --}}

@@ -1,0 +1,33 @@
+
+
+<PowerSelect  @searchEnabled={{true}} @options={{this.categories}} {{!-- @matcher={{this.handleClick}} --}}
+    @selected={{this.destination}} @onChange={{ this.handleClick}} as |name|>
+    {{name}}
+</PowerSelect>
+
+<input class="searchbox"  placeholder="Search.." {{on "input" this.search}}>
+
+{{log @product 'model-data'}}
+
+{{!-- {{log this.data 'new-data'}} --}}
+ 
+
+
+{{#each this.data.products as |p|}}
+<LinkTo @route="item" @model={{p.id}} class="product">
+    <Product::Details @product={{p}} />
+    <Product::Image @src={{p.thumbnail}} />
+</LinkTo>
+{{/each}}
+
+
+{{#if this.prev_button}} 
+<button type="button" class="previous round " {{on "click" (perform this.paginationTask this.prev)}}> &laquo; Previous</button>
+{{/if}}
+
+
+
+ {{#if this.next}} 
+<button type="button" class="next round " {{on "click" (perform this.paginationTask this.next)}}>Next &raquo; </button>
+{{/if}} 
+
