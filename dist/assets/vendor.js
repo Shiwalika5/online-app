@@ -88185,7 +88185,7 @@ require('@ember/-internals/bootstrap')
   function initializeRuntimeMacrosConfig() {
     return {
       "packages": {
-        "/Users/shiwalika/online_app/node_modules/ember-get-config": {
+        "/Users/shiwalika/Documents/GitHub/online-app/node_modules/ember-get-config": {
           "modulePrefix": "emberjs-tutorial"
         }
       },
@@ -96970,7 +96970,7 @@ require('@ember/-internals/bootstrap')
     value: true
   });
   _exports.default = void 0;
-  let configModulePath = `${(0, _runtime.config)("/Users/shiwalika/online_app/node_modules/ember-get-config").modulePrefix}/config/environment`;
+  let configModulePath = `${(0, _runtime.config)("/Users/shiwalika/Documents/GitHub/online-app/node_modules/ember-get-config").modulePrefix}/config/environment`;
 
   var _default = require(configModulePath).default;
 

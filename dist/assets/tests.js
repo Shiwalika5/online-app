@@ -368,6 +368,20 @@ define("emberjs-tutorial/tests/unit/controllers/cart-test", ["qunit", "ember-qun
     });
   });
 });
+define("emberjs-tutorial/tests/unit/controllers/index-test", ["qunit", "emberjs-tutorial/tests/helpers"], function (_qunit, _helpers) {
+  "use strict";
+
+  0; //eaimeta@70e063a35619d71f0,"qunit",0,"emberjs-tutorial/tests/helpers"eaimeta@70e063a35619d71f
+
+  (0, _qunit.module)('Unit | Controller | index', function (hooks) {
+    (0, _helpers.setupTest)(hooks); // TODO: Replace this with your real tests.
+
+    (0, _qunit.test)('it exists', function (assert) {
+      let controller = this.owner.lookup('controller:index');
+      assert.ok(controller);
+    });
+  });
+});
 define("emberjs-tutorial/tests/unit/controllers/item-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
   "use strict";
 

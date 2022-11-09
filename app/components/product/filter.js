@@ -37,33 +37,63 @@ export default class FilterComponent extends Component {
     "automotive",
     "motorcycle",
     "lighting",
-    "All Products"
+    "AllProducts"
   ]
 
-
   @action
-  async handleClick(value) {
+  async handleFilter(categories) {
+    
+  
+    this.destination = categories;
+   
+    this.args.filter({ queryParams: { category: categories }});
+
+   if (categories == "AllProducts") {
+
+   
+      
+    let response =await fetch(`https://dummyjson.com/products`).then((res) => res.json());
+    this.data = response;
+    return this.data;
+    
+  }
+  else{
+   
     this.next = 0;
     this.prev_button =0;
-    this.destination = value;
-    if (value == "All Products") {
-      let response =
-        await fetch
-          (`https://dummyjson.com/products`)
-          .then((res) => res.json());
-      this.data = response;
-    
-
-    }
-    else {
-      let response =
-        await fetch
-          (`https://dummyjson.com/products/category/${value}`)
-          .then((res) => res.json());
-      this.data = response;
-    }
+    let response =
+    await fetch
+      (`https://dummyjson.com/products/category/${categories}`)
+      .then((res) => res.json());
+  this.data = response;
+  return this.data;
+  }
 
   }
+
+  // @action
+  // async handleClick(value) {
+  //   this.next = 0;
+  //   this.prev_button =0;
+  //   this.destination = value;
+  //   if (value == "All Products") {
+  //     let response =
+  //       await fetch
+  //         (`https://dummyjson.com/products`)
+  //         .then((res) => res.json());
+  //     this.data = response;
+    
+
+  //   }
+  //   else {
+  //     let response =
+  //       await fetch
+  //         (`https://dummyjson.com/products/category/${value}`)
+  //         .then((res) => res.json());
+  //     this.data = response;
+  //   }
+
+  // }
   @action
   async search(term) {
     this.next = 0;
@@ -79,17 +109,23 @@ export default class FilterComponent extends Component {
 
   @task({ keepLatest: true })
   *paginationTask(skip_pages) {
+    let page_number = (skip_pages/10); 
+
+   
+     console.log(skip_pages, 'skipped',page_number ,'page');
+    this.args.filter({ queryParams: { page: page_number }});
+    this.args.filter({ queryParams: { category: "AllProducts" }});
 
     if (skip_pages <this.data.total) {
 
 
       this.data = yield fetch(
-        `https://dummyjson.com/products?limit=20&skip=${skip_pages}`
+        `https://dummyjson.com/products?limit=10&skip=${skip_pages}`
       ).then((response) => response.json());
 
       
       if (skip_pages >= 20) {
-        this.prev = skip_pages - 20;
+        this.prev = skip_pages - 10;
         this.prev_button = 1;
       }
       else if (skip_pages < 20) {
@@ -97,7 +133,8 @@ export default class FilterComponent extends Component {
       }
 
       
-        this.next = skip_pages + 20; 
+        this.next = skip_pages + 10; 
+       
       
         if(this.next == this.data.total){
           this.next = 0;
@@ -111,4 +148,39 @@ export default class FilterComponent extends Component {
 
 
   }
+
+  // @task({ keepLatest: true })
+  // *paginationTask(skip_pages) {
+
+  //   if (skip_pages <this.data.total) {
+
+
+  //     this.data = yield fetch(
+  //       `https://dummyjson.com/products?limit=20&skip=${skip_pages}`
+  //     ).then((response) => response.json());
+
+      
+  //     if (skip_pages >= 20) {
+  //       this.prev = skip_pages - 20;
+  //       this.prev_button = 1;
+  //     }
+  //     else if (skip_pages < 20) {
+  //       this.prev_button = 0;
+  //     }
+
+      
+  //       this.next = skip_pages + 20; 
+      
+  //       if(this.next == this.data.total){
+  //         this.next = 0;
+  //       }
+    
+
+  //     return this.data;
+
+  //   }
+
+
+
+  // }
 }

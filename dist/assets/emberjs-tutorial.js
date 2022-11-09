@@ -1278,8 +1278,8 @@
   /*
     
   
-  <PowerSelect  @searchEnabled={{true}} @options={{this.categories}} {{!-- @matcher={{this.handleClick}} --}}
-      @selected={{this.destination}} @onChange={{ this.handleClick}} as |name|>
+  <PowerSelect  @searchEnabled={{true}} @options={{this.categories}} 
+      @selected={{this.destination}} @onChange={{this.handleFilter}} as |name|>
       {{name}}
   </PowerSelect>
   
@@ -1312,8 +1312,8 @@
   
   */
   {
-    "id": "nhpgI24P",
-    "block": "[[[1,\"\\n\\n\"],[8,[39,0],null,[[\"@searchEnabled\",\"@options\",\"@selected\",\"@onChange\"],[true,[30,0,[\"categories\"]],[30,0,[\"destination\"]],[30,0,[\"handleClick\"]]]],[[\"default\"],[[[[1,\"\\n    \"],[1,[30,1]],[1,\"\\n\"]],[1]]]]],[1,\"\\n\\n\"],[11,\"input\"],[24,0,\"searchbox\"],[24,\"placeholder\",\"Search..\"],[4,[38,1],[\"input\",[30,0,[\"search\"]]],null],[12],[13],[1,\"\\n\\n\"],[1,[54,[[30,2],\"model-data\"]]],[1,\"\\n\\n\"],[1,\" \\n\\n\\n\"],[42,[28,[37,4],[[28,[37,4],[[30,0,[\"data\",\"products\"]]],null]],null],null,[[[8,[39,5],[[24,0,\"product\"]],[[\"@route\",\"@model\"],[\"item\",[30,3,[\"id\"]]]],[[\"default\"],[[[[1,\"\\n    \"],[8,[39,6],null,[[\"@product\"],[[30,3]]],null],[1,\"\\n    \"],[8,[39,7],null,[[\"@src\"],[[30,3,[\"thumbnail\"]]]],null],[1,\"\\n\"]],[]]]]],[1,\"\\n\"]],[3]],null],[1,\"\\n\\n\"],[41,[30,0,[\"prev_button\"]],[[[11,\"button\"],[24,0,\"previous round \"],[24,4,\"button\"],[4,[38,1],[\"click\",[28,[37,9],[[30,0,[\"paginationTask\"]],[30,0,[\"prev\"]]],null]],null],[12],[1,\" « Previous\"],[13],[1,\"\\n\"]],[]],null],[1,\"\\n\\n\\n\"],[41,[30,0,[\"next\"]],[[[11,\"button\"],[24,0,\"next round \"],[24,4,\"button\"],[4,[38,1],[\"click\",[28,[37,9],[[30,0,[\"paginationTask\"]],[30,0,[\"next\"]]],null]],null],[12],[1,\"Next » \"],[13],[1,\"\\n\"]],[]],null],[1,\"\\n\"]],[\"name\",\"@product\",\"p\"],false,[\"power-select\",\"on\",\"log\",\"each\",\"-track-array\",\"link-to\",\"product/details\",\"product/image\",\"if\",\"perform\"]]",
+    "id": "HkXztmyH",
+    "block": "[[[1,\"\\n\\n\"],[8,[39,0],null,[[\"@searchEnabled\",\"@options\",\"@selected\",\"@onChange\"],[true,[30,0,[\"categories\"]],[30,0,[\"destination\"]],[30,0,[\"handleFilter\"]]]],[[\"default\"],[[[[1,\"\\n    \"],[1,[30,1]],[1,\"\\n\"]],[1]]]]],[1,\"\\n\\n\"],[11,\"input\"],[24,0,\"searchbox\"],[24,\"placeholder\",\"Search..\"],[4,[38,1],[\"input\",[30,0,[\"search\"]]],null],[12],[13],[1,\"\\n\\n\"],[1,[54,[[30,2],\"model-data\"]]],[1,\"\\n\\n\"],[1,\" \\n\\n\\n\"],[42,[28,[37,4],[[28,[37,4],[[30,0,[\"data\",\"products\"]]],null]],null],null,[[[8,[39,5],[[24,0,\"product\"]],[[\"@route\",\"@model\"],[\"item\",[30,3,[\"id\"]]]],[[\"default\"],[[[[1,\"\\n    \"],[8,[39,6],null,[[\"@product\"],[[30,3]]],null],[1,\"\\n    \"],[8,[39,7],null,[[\"@src\"],[[30,3,[\"thumbnail\"]]]],null],[1,\"\\n\"]],[]]]]],[1,\"\\n\"]],[3]],null],[1,\"\\n\\n\"],[41,[30,0,[\"prev_button\"]],[[[11,\"button\"],[24,0,\"previous round \"],[24,4,\"button\"],[4,[38,1],[\"click\",[28,[37,9],[[30,0,[\"paginationTask\"]],[30,0,[\"prev\"]]],null]],null],[12],[1,\" « Previous\"],[13],[1,\"\\n\"]],[]],null],[1,\"\\n\\n\\n\"],[41,[30,0,[\"next\"]],[[[11,\"button\"],[24,0,\"next round \"],[24,4,\"button\"],[4,[38,1],[\"click\",[28,[37,9],[[30,0,[\"paginationTask\"]],[30,0,[\"next\"]]],null]],null],[12],[1,\"Next » \"],[13],[1,\"\\n\"]],[]],null],[1,\"\\n\"]],[\"name\",\"@product\",\"p\"],false,[\"power-select\",\"on\",\"log\",\"each\",\"-track-array\",\"link-to\",\"product/details\",\"product/image\",\"if\",\"perform\"]]",
     "moduleName": "emberjs-tutorial/components/product/filter.hbs",
     "isStrictMode": false
   });
@@ -1334,24 +1334,51 @@
 
       _initializerDefineProperty(this, "prev_button", _descriptor5, this);
 
-      _defineProperty(this, "categories", ["smartphones", "laptops", "fragrances", "skincare", "groceries", "home-decoration", "furniture", "tops", "womens-dresses", "womens-shoes", "mens-shirts", "mens-shoes", "mens-watches", "womens-watches", "womens-bags", "womens-jewellery", "sunglasses", "automotive", "motorcycle", "lighting", "All Products"]);
+      _defineProperty(this, "categories", ["smartphones", "laptops", "fragrances", "skincare", "groceries", "home-decoration", "furniture", "tops", "womens-dresses", "womens-shoes", "mens-shirts", "mens-shoes", "mens-watches", "womens-watches", "womens-bags", "womens-jewellery", "sunglasses", "automotive", "motorcycle", "lighting", "AllProducts"]);
 
       this.next = 20;
     }
 
-    async handleClick(value) {
-      this.next = 0;
-      this.prev_button = 0;
-      this.destination = value;
+    async handleFilter(categories) {
+      this.destination = categories;
+      this.args.filter({
+        queryParams: {
+          category: categories
+        }
+      });
 
-      if (value == "All Products") {
+      if (categories == "AllProducts") {
         let response = await fetch(`https://dummyjson.com/products`).then(res => res.json());
         this.data = response;
+        return this.data;
       } else {
-        let response = await fetch(`https://dummyjson.com/products/category/${value}`).then(res => res.json());
+        this.next = 0;
+        this.prev_button = 0;
+        let response = await fetch(`https://dummyjson.com/products/category/${categories}`).then(res => res.json());
         this.data = response;
+        return this.data;
       }
-    }
+    } // @action
+    // async handleClick(value) {
+    //   this.next = 0;
+    //   this.prev_button =0;
+    //   this.destination = value;
+    //   if (value == "All Products") {
+    //     let response =
+    //       await fetch
+    //         (`https://dummyjson.com/products`)
+    //         .then((res) => res.json());
+    //     this.data = response;
+    //   }
+    //   else {
+    //     let response =
+    //       await fetch
+    //         (`https://dummyjson.com/products/category/${value}`)
+    //         .then((res) => res.json());
+    //     this.data = response;
+    //   }
+    // }
+
 
     async search(term) {
       this.next = 0;
@@ -1362,17 +1389,30 @@
     }
 
     *paginationTask(skip_pages) {
+      let page_number = skip_pages / 10;
+      console.log(skip_pages, 'skipped', page_number, 'page');
+      this.args.filter({
+        queryParams: {
+          page: page_number
+        }
+      });
+      this.args.filter({
+        queryParams: {
+          category: "AllProducts"
+        }
+      });
+
       if (skip_pages < this.data.total) {
-        this.data = yield fetch(`https://dummyjson.com/products?limit=20&skip=${skip_pages}`).then(response => response.json());
+        this.data = yield fetch(`https://dummyjson.com/products?limit=10&skip=${skip_pages}`).then(response => response.json());
 
         if (skip_pages >= 20) {
-          this.prev = skip_pages - 20;
+          this.prev = skip_pages - 10;
           this.prev_button = 1;
         } else if (skip_pages < 20) {
           this.prev_button = 0;
         }
 
-        this.next = skip_pages + 20;
+        this.next = skip_pages + 10;
 
         if (this.next == this.data.total) {
           this.next = 0;
@@ -1380,7 +1420,27 @@
 
         return this.data;
       }
-    }
+    } // @task({ keepLatest: true })
+    // *paginationTask(skip_pages) {
+    //   if (skip_pages <this.data.total) {
+    //     this.data = yield fetch(
+    //       `https://dummyjson.com/products?limit=20&skip=${skip_pages}`
+    //     ).then((response) => response.json());
+    //     if (skip_pages >= 20) {
+    //       this.prev = skip_pages - 20;
+    //       this.prev_button = 1;
+    //     }
+    //     else if (skip_pages < 20) {
+    //       this.prev_button = 0;
+    //     }
+    //       this.next = skip_pages + 20; 
+    //       if(this.next == this.data.total){
+    //         this.next = 0;
+    //       }
+    //     return this.data;
+    //   }
+    // }
+
 
   }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "data", [_tracking.tracked], {
     configurable: true,
@@ -1411,7 +1471,7 @@
     enumerable: true,
     writable: true,
     initializer: null
-  }), _applyDecoratedDescriptor(_class.prototype, "handleClick", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleClick"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "search", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "search"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "paginationTask", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "paginationTask"), _class.prototype)), _class));
+  }), _applyDecoratedDescriptor(_class.prototype, "handleFilter", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleFilter"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "search", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "search"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "paginationTask", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "paginationTask"), _class.prototype)), _class));
   _exports.default = FilterComponent;
   (0, _component.setComponentTemplate)(__COLOCATED_TEMPLATE__, FilterComponent);
 });
@@ -1513,6 +1573,65 @@
     initializer: null
   }), _applyDecoratedDescriptor(_class.prototype, "updateItemCount", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateItemCount"), _class.prototype)), _class));
   _exports.default = CartController;
+});
+;define("emberjs-tutorial/controllers/index", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object", "@ember/service"], function (_exports, _controller, _tracking, _object, _service) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _class, _descriptor, _descriptor2, _descriptor3;
+
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/service"eaimeta@70e063a35619d71f
+
+  function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
+  function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
+
+  let IndexController = (_class = class IndexController extends _controller.default {
+    constructor() {
+      super(...arguments);
+
+      _initializerDefineProperty(this, "router", _descriptor, this);
+
+      _defineProperty(this, "queryParams", ['category', 'page']);
+
+      _initializerDefineProperty(this, "category", _descriptor2, this);
+
+      _initializerDefineProperty(this, "page", _descriptor3, this);
+    }
+
+    async handleClick(queryParams) {
+      this.router.transitionTo('index', queryParams);
+    }
+
+  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "router", [_service.inject], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "category", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'AllProduct';
+    }
+  }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, "page", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 1;
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleClick", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleClick"), _class.prototype)), _class);
+  _exports.default = IndexController;
 });
 ;define("emberjs-tutorial/controllers/item", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
   "use strict";
@@ -2703,10 +2822,7 @@
         products: p.products
       });
       return p;
-    } //   <script>
-    // const values = ['ram','shyam,'sita']
-    //   </script>
-
+    }
 
   }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "store", [_service.inject], {
     configurable: true,
@@ -3098,7 +3214,7 @@
   
   <GeneralContainer> 
   {{log this.model 'new'}}
-     <Product::filter @product={{this.model}}/>
+     <Product::filter @product={{this.model}} @filter={{this.handleClick}}/>
   </GeneralContainer> 
   
   
@@ -3114,8 +3230,8 @@
        {{!-- <Product::Image @src={{product.image}}/>   --}}
   */
   {
-    "id": "Rin13pUT",
-    "block": "[[[1,\"\\n\"],[8,[39,0],null,null,[[\"default\"],[[[[1,\" \\n\"],[1,[54,[[30,0,[\"model\"]],\"new\"]]],[1,\"\\n   \"],[8,[39,2],null,[[\"@product\"],[[30,0,[\"model\"]]]],null],[1,\"\\n\"]],[]]]]],[1,\" \\n\\n\\n\\n\"],[1,\"\\n\"]],[],false,[\"general-container\",\"log\",\"product/filter\"]]",
+    "id": "s2F47R0D",
+    "block": "[[[1,\"\\n\"],[8,[39,0],null,null,[[\"default\"],[[[[1,\" \\n\"],[1,[54,[[30,0,[\"model\"]],\"new\"]]],[1,\"\\n   \"],[8,[39,2],null,[[\"@product\",\"@filter\"],[[30,0,[\"model\"]],[30,0,[\"handleClick\"]]]],null],[1,\"\\n\"]],[]]]]],[1,\" \\n\\n\\n\\n\"],[1,\"\\n\"]],[],false,[\"general-container\",\"log\",\"product/filter\"]]",
     "moduleName": "emberjs-tutorial/templates/index.hbs",
     "isStrictMode": false
   });
@@ -3282,7 +3398,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("emberjs-tutorial/app")["default"].create({"name":"emberjs-tutorial","version":"0.0.0+e1196a92"});
+            require("emberjs-tutorial/app")["default"].create({"name":"emberjs-tutorial","version":"0.0.0+9ddfd510"});
           }
         
 //# sourceMappingURL=emberjs-tutorial.map

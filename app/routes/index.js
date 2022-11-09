@@ -11,9 +11,8 @@ export default class IndexRoute extends Route {
 
     return p;
   }
-//   <script>
-// const values = ['ram','shyam,'sita']
-//   </script>
+
+
   
 
 }
